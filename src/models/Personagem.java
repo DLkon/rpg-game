@@ -19,7 +19,7 @@ public class Personagem {
         return 1;
     }
 
-    public double Defender(){
+    public int Defender(){
         return 1;
     }
 

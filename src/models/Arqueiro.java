@@ -12,9 +12,8 @@ public class Arqueiro extends Personagem {
         return 13;
     }
 
-    public double Defender() {
-        double percent = 10/100;
-        return percent;
+    public int Defender() {
+        return 2;
     }
 
     

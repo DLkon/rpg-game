@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Jogo {
@@ -28,7 +29,69 @@ public class Jogo {
     }
 
       public void batalhar(){
-            System.out.println("IMPLEMENTAR LÓGICA DO JOGO AQUI");
+            jogador = escolherPersonagem();
+
+            for(Personagem adversario : jogadores){
+
+                Random random = new Random();
+
+                System.out.println("--------------------------------------------------");
+                System.out.println("Seu personagem: " + jogador.getNome());
+                System.out.println("Adversario: " + adversario.getNome());
+                System.out.println("--------------------------------------------------");
+
+                while (jogador.getHp() > 0 && adversario.getHp() > 0) {
+                    
+                    System.out.println("Ações disponíveis:");
+                    System.out.println("1. Atacar");
+                    System.out.println("2. Defender");
+                    System.out.println("3. Habilidade Especial");
+                    System.out.print("Escolha a ação: ");
+
+                    int acaoJogador = scanner.nextInt();
+                    scanner.nextLine();
+
+                    int acaoAdversario = random.nextInt(3) + 1;
+
+                    switch(acaoJogador) {
+                        case 1: 
+                            int danoJogador = jogador.Atacar();
+                            if(acaoAdversario == 2){
+                                danoJogador = danoJogador / adversario.Defender();
+                                System.out.println(" ");
+                                System.out.println("Adversario Defendeu");
+                                System.out.println(" ");
+                                adversario.setHp(adversario.getHp() - danoJogador);
+
+                            } else {
+                                int danoAdversario = adversario.Atacar();
+                                adversario.setHp(adversario.getHp() - danoJogador);
+                                jogador.setHp(jogador.getHp() - danoAdversario);
+                                System.out.println(" ");
+                            }
+                            break;
+                        case 2:
+                            if(acaoAdversario == 1) {
+
+                                int defesa = jogador.Defender();
+                            }
+                        
+                    }
+
+                    System.out.println("Status de vida");
+                    System.out.println("Vida do jogador " + jogador.getHp());
+                    System.out.println("Vida do oponenete " + adversario.getHp());
+                    System.out.println(" ");
+
+                }
+
+                
+
+
+            }
+
+            
+
         }
 
     public void exibirMenu(){
@@ -85,6 +148,7 @@ public class Jogo {
         
        
         public void editarPersonagem(){
+   
             System.out.println("Qual personagem deseja editar?");
             for(int i = 0; i < jogadores.size(); i++ ){
                 System.out.println( i + " " + jogadores.get(i).getNome());
@@ -146,4 +210,22 @@ public class Jogo {
             jogador = new Personagem(null, null);
         }
 
+        public Personagem escolherPersonagem(){
+            System.out.println("Bem vindo a Arena");
+            System.out.println("Escolha o personagem que voce ira controlar!");
+            for(int i  = 0; i < jogadores.size(); i++){
+                System.out.println(i + ": " + jogadores.get(i).getNome());
+            }
+            
+            int opcao  = scanner.nextInt();
+            scanner.nextLine();
+
+            
+            Personagem jogadorEscolhido =  jogadores.get(opcao);
+            //removendo jogador da lista
+            jogadores.remove(opcao);
+            return jogadorEscolhido;
+            
+            
+        }
 }

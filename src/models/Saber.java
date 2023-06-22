@@ -10,10 +10,11 @@ public class Saber extends Personagem {
     }
 
     public int Atacar(){
+        System.out.println("O espdachim usou sua lamina");
         return 20;
     }
 
-    public double Defender(){
-        return 0.2;
+    public int Defender(){
+        return 3;
     }
 }
