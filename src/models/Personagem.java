@@ -1,6 +1,6 @@
 package models;
 
-public class Personagem {
+public class Personagem implements HabilidadeEspecial {
     private String nome;
     private String raca;
     private int hp;
@@ -45,6 +45,10 @@ public class Personagem {
 
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public void usarHabilidadeEspecial() {
+       
     }
     
     

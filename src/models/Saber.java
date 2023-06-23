@@ -1,6 +1,7 @@
 package models;
 
-public class Saber extends Personagem {
+public class Saber extends Personagem{
+
     public Saber(){
 
     }
@@ -15,6 +16,13 @@ public class Saber extends Personagem {
     }
 
     public int Defender(){
-        return 3;
+        return 2;
+    }
+
+
+    public void usarHabilidadeEspecial() {
+        System.out.println("O espadachim usou a sua cura");
+        setHp(getHp() + 20);
+        
     }
 }

@@ -31,6 +31,7 @@ public class Jogo {
       public void batalhar(){
             jogador = escolherPersonagem();
 
+            //rodada jogador vs todos os oponentes
             for(Personagem adversario : jogadores){
 
                 Random random = new Random();
@@ -40,55 +41,100 @@ public class Jogo {
                 System.out.println("Adversario: " + adversario.getNome());
                 System.out.println("--------------------------------------------------");
 
-                while (jogador.getHp() > 0 && adversario.getHp() > 0) {
-                    
-                    System.out.println("Ações disponíveis:");
-                    System.out.println("1. Atacar");
-                    System.out.println("2. Defender");
-                    System.out.println("3. Habilidade Especial");
-                    System.out.print("Escolha a ação: ");
+                //rodada jogados vs oponente
+               
+                    while (jogador.getHp() > 0 && adversario.getHp() > 0) {   
+                        System.out.println("Ações disponíveis:");
+                        System.out.println("1. Atacar");
+                        System.out.println("2. Defender");
+                        System.out.println("3. Habilidade Especial");
+                        System.out.print("Escolha a ação: ");
 
-                    int acaoJogador = scanner.nextInt();
-                    scanner.nextLine();
+                        int acaoJogador = scanner.nextInt();
+                        scanner.nextLine();
 
-                    int acaoAdversario = random.nextInt(3) + 1;
-
-                    switch(acaoJogador) {
-                        case 1: 
-                            int danoJogador = jogador.Atacar();
-                            if(acaoAdversario == 2){
-                                danoJogador = danoJogador / adversario.Defender();
-                                System.out.println(" ");
-                                System.out.println("Adversario Defendeu");
-                                System.out.println(" ");
-                                adversario.setHp(adversario.getHp() - danoJogador);
-
-                            } else {
-                                int danoAdversario = adversario.Atacar();
-                                adversario.setHp(adversario.getHp() - danoJogador);
-                                jogador.setHp(jogador.getHp() - danoAdversario);
-                                System.out.println(" ");
-                            }
-                            break;
-                        case 2:
-                            if(acaoAdversario == 1) {
-
-                                int defesa = jogador.Defender();
-                            }
+                        int acaoAdversario = random.nextInt(3) + 1;
                         
+
+                        switch(acaoJogador) {
+                              
+                            case 1: 
+                                int danoJogador = jogador.Atacar();
+                                if(acaoAdversario == 2){
+                                    //condição de jogador atacar e o oponente se defender
+                                    danoJogador = danoJogador / adversario.Defender();
+                                    System.out.println(" ");
+                                    System.out.println("Adversario Defendeu");
+                                    System.out.println(" ");
+                                    adversario.setHp(adversario.getHp() - danoJogador);
+
+                                } else if (acaoAdversario == 1) {
+                                    //condição de ambos se atacarem
+                                    int danoAdversario = adversario.Atacar();
+                                    adversario.setHp(adversario.getHp() - danoJogador);
+                                    jogador.setHp(jogador.getHp() - danoAdversario);
+                                    System.out.println(" ");
+                                }
+                                break;
+                            case 2:
+                                if(acaoAdversario == 1) {
+                                    //condição do jogador se defender e o adversario atacar
+                                    int danoAdversario = adversario.Atacar();
+                                    int defesa = jogador.Defender();
+                                    System.out.println(" ");
+                                    System.out.println(adversario.getNome() + " atacou ");
+                                    System.out.println(jogador.getNome() + " defendeu o ataque");
+                                    System.out.println(" ");
+                                    jogador.setHp(jogador.getHp() - (danoAdversario / defesa));
+                                    
+                                } else if(acaoAdversario == 2) {
+                                    System.out.println("Nada acontece, ambos se defenderam");
+                                }
+                                break;
+                            case 3:
+                                System.out.println(" ");
+                                System.out.println("jogador usou habilidade especial");
+                                jogador.usarHabilidadeEspecial();
+                                break;
+                            default: 
+                                System.out.println(" ");
+                                System.out.println("Opção invalida");  
+                                break;                           
+
+                        }
+
+                        if(acaoAdversario == 3){
+                            adversario.usarHabilidadeEspecial();
+                        }
+
+
+
+                        System.out.println("Status de vida");
+                        System.out.println("Vida do jogador " + jogador.getHp());
+                        System.out.println("Vida do oponenete " + adversario.getHp());
+                        System.out.println(" ");
+
                     }
 
-                    System.out.println("Status de vida");
-                    System.out.println("Vida do jogador " + jogador.getHp());
-                    System.out.println("Vida do oponenete " + adversario.getHp());
-                    System.out.println(" ");
 
-                }
+                    //verifica quem ganhou
+                    if(jogador.getHp() > 0){
+                        System.out.println("");
+                        System.out.println("Voce venceu, indo para a prxima rodada ...");
+                        jogador.setHp(100);
+                    } else {
+                        System.out.println("");
+                        System.out.println("Voce perdeu ..." + adversario.getNome() + " te derrotou" );
+                        System.out.println("Game Over");
+                        break;
+                    }
+                    
 
                 
-
-
             }
+
+            System.out.println("VOCE GANHOU!!");
+            
 
             
 
@@ -167,11 +213,13 @@ public class Jogo {
                     String novoNome = scanner.nextLine();
                     jogadores.get(opcaoPersonagem).setNome(novoNome);
                     infoPersonagem();
+                    break;
                 case 2:
                     System.out.println("Digite a nova raça");
                     String raca = scanner.nextLine();
                     jogadores.get(opcaoPersonagem).setRaca(raca);
                     infoPersonagem();
+                    break;
                     
             }
 
